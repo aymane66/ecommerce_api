@@ -2,6 +2,8 @@ from rest_framework import viewsets, permissions, filters
 from .models import Category, Product
 from .serializers import CategorySerializer, ProductSerializer
 from .permissions import IsOwnerOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 # Create your views here.
 
@@ -15,7 +17,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all().order_by("-created_date")
     serializer_class = ProductSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = {
         "category": ["exact"],       # filter by category ID
         "price": ["gte", "lte"],     # filter by price range
@@ -27,4 +29,3 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(added_by=self.request.user)
-

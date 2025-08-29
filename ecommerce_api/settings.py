@@ -42,10 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework', # Add Rest framework
-    'products', # Add app
-    'users', # Add app
+    'products',
+    'users',
     'rest_framework.authtoken', # token support
     'rest_framework_simplejwt', # JWT auth
+    'purchase', 
 
 
 ]
@@ -157,6 +158,8 @@ REST_FRAMEWORK = {
 
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+        "rest_framework.filters.SearchFilter",
+        "rest_framework.filters.OrderingFilter",
     ],
 
     "DEFAULT_FILTER_BACKENDS": [
